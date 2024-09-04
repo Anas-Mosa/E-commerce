@@ -35,7 +35,10 @@ import { NavLink } from 'react-router-dom';
 function Header1({toggleCart}) {
   const [open, setOpen] = useState(false);
   const cart =useSelector((state)=>state.cart)
-  
+  const handleScrool = () => {window.scrollTo({
+    top:0,
+    
+  })}
   
   return (
     <div className="fixed top-0 z-30 w-full bg-white shadow-md rtl">
@@ -63,10 +66,7 @@ function Header1({toggleCart}) {
             
             <div className="space-y-6 px-4 py-6">
               {navigation.pages.map((page) => (
-                <NavLink onClick={() => window.scrollTo({
-                  top:0,
-                  behavior: "smooth",
-                }) }
+                <NavLink onClick={handleScrool}
                   key={page.name}
                   to={page.to}
                   className="flex items-center text-gray-900 hover:text-indigo-600"
@@ -109,7 +109,7 @@ function Header1({toggleCart}) {
               <div className="ml-auto flex items-center space-x-6 rtl">
                 <div className="hidden lg:flex lg:space-x-6">
                   {navigation.pages.map((page) => (
-                    <NavLink
+                    <NavLink onClick={handleScrool}
                       key={page.name}
                       to={page.to}
                       className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"

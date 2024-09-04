@@ -7,7 +7,7 @@ import { fetchProducts } from './rtk/slices/ProductsSlice';
 import {HeartIcon} from '@heroicons/react/24/outline'
 
 
-const Clothes = ({ products, interval = 6000 }) => {
+const Clothes = ({ products}) => {
   const dispatch = useDispatch();
   const [currentIndex, setCurrentIndex] = useState(0);
   const slideWidth = 300; // Width of each card in pixels
@@ -19,62 +19,31 @@ const Clothes = ({ products, interval = 6000 }) => {
     products.filter(product => product.category.id == 1), 
     [products]
   );
-
+  
   const filteredProducts = useMemo(() => 
     clothes.filter(product => !skipIds.has(product.id)), 
-    [products]
-  );
+  [products]
+);
 
-  const totalSlides = Math.ceil(filteredProducts.length / 4); // Number of slides needed
-  const sliderRef = useRef(null);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentIndex((prevIndex) =>
-        prevIndex === totalSlides - 1 ? 0 : prevIndex + 1
-      );
-    }, interval);
 
-    return () => clearInterval(timer); // Cleanup timer on unmount
-  }, [totalSlides, interval]);
 
-  const handlePrev = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? totalSlides - 1 : prevIndex - 1
-    );
-  };
+const chunks = filteredProducts
 
-  const handleNext = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === totalSlides - 1 ? 0 : prevIndex + 1
-    );
-  };
 
-  const swipeHandlers = useSwipeable({
-    onSwipedLeft: handleNext,
-    onSwipedRight: handlePrev,
-    preventDefaultTouchmoveEvent: true,
-    trackMouse: true,
-  });
-
-  const chunks = useMemo(() => 
-    Array.from({ length: totalSlides }, (_, i) => 
-      filteredProducts.slice(i * 4, i * 4 + 4) // Adjust 4 based on how many cards you want per slide
-    ), [filteredProducts, totalSlides]
-  );
 
   return (
-    <div className="relative w-full overflow-hidden">
+    <div className="relative w-full ">
       <div
-        ref={sliderRef}
-        className="flex transition-transform duration-500 ease-in-out"
-        style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-        {...swipeHandlers}
+        
+        className="flex flex-wrap "
+        
+        
       >
-        {chunks.map((chunk, index) => (
-          <div key={index} className="flex flex-nowrap">
+        {chunks.map((product, index) => (
+          <div key={index} className="">
           
-            {chunk.map((product) => (
+            
               <div key={product.id} className="flex-shrink-0 w-72 p-4">
                 <div className="h-96 relative bg-white rounded-md shadow-xl overflow-hidden">
                   <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-white flex justify-center">
@@ -99,32 +68,10 @@ const Clothes = ({ products, interval = 6000 }) => {
                   </div>
                 </div>
               </div>
-            ))}
+            
 
 
           </div>
-        ))}
-      </div>
-      <button
-        onClick={handlePrev}
-        className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md hover:bg-gray-200 focus:outline-none"
-        aria-label="Previous Slide"
-      >
-        &lt;
-      </button>
-      <button
-        onClick={handleNext}
-        className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md hover:bg-gray-200 focus:outline-none"
-        aria-label="Next Slide"
-      >
-        &gt;
-      </button>
-      <div className="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
-        {chunks.map((_, index) => (
-          <span
-            key={index}
-            className={`block w-3 h-3 rounded-full ${currentIndex === index ? 'bg-white' : 'bg-gray-500'}`}
-          />
         ))}
       </div>
     </div>
@@ -132,7 +79,7 @@ const Clothes = ({ products, interval = 6000 }) => {
 };
 
 
-const Electronics = ({ products, interval = 5500 }) => {
+const Electronics = ({ products}) => {
   const dispatch = useDispatch();
   const [currentIndex, setCurrentIndex] = useState(0);
   const slideWidth = 300; // Width of each card in pixels
@@ -150,56 +97,21 @@ const Electronics = ({ products, interval = 5500 }) => {
     [products]
   );
 
-  const totalSlides = Math.ceil(filteredProducts.length / 4); // Number of slides needed
-  const sliderRef = useRef(null);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentIndex((prevIndex) =>
-        prevIndex === totalSlides - 1 ? 0 : prevIndex + 1
-      );
-    }, interval);
-
-    return () => clearInterval(timer); // Cleanup timer on unmount
-  }, [totalSlides, interval]);
-
-  const handlePrev = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? totalSlides - 1 : prevIndex - 1
-    );
-  };
-
-  const handleNext = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === totalSlides - 1 ? 0 : prevIndex + 1
-    );
-  };
-
-  const swipeHandlers = useSwipeable({
-    onSwipedLeft: handleNext,
-    onSwipedRight: handlePrev,
-    preventDefaultTouchmoveEvent: true,
-    trackMouse: true,
-  });
-
-  const chunks = useMemo(() => 
-    Array.from({ length: totalSlides }, (_, i) => 
-      filteredProducts.slice(i * 4, i * 4 + 4) // Adjust 4 based on how many cards you want per slide
-    ), [filteredProducts, totalSlides]
-  );
+  const chunks = filteredProducts
 
   return (
     <div className="relative w-full overflow-hidden">
       <div
-        ref={sliderRef}
-        className="flex transition-transform duration-500 ease-in-out"
-        style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-        {...swipeHandlers}
+        
+        className="flex flex-wrap"
+        
+        
       >
-        {chunks.map((chunk, index) => (
-          <div key={index} className="flex flex-nowrap">
+        {chunks.map((product, index) => (
+          <div key={index} className="">
           
-            {chunk.map((product) => (
+            
               <div key={product.id} className="flex-shrink-0 w-72 p-4">
                 <div className="h-96 relative bg-white rounded-md shadow-xl overflow-hidden">
                   <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-white flex justify-center">
@@ -224,32 +136,10 @@ const Electronics = ({ products, interval = 5500 }) => {
                   </div>
                 </div>
               </div>
-            ))}
+            
 
 
           </div>
-        ))}
-      </div>
-      <button
-        onClick={handlePrev}
-        className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md hover:bg-gray-200 focus:outline-none"
-        aria-label="Previous Slide"
-      >
-        &lt;
-      </button>
-      <button
-        onClick={handleNext}
-        className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md hover:bg-gray-200 focus:outline-none"
-        aria-label="Next Slide"
-      >
-        &gt;
-      </button>
-      <div className="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
-        {chunks.map((_, index) => (
-          <span
-            key={index}
-            className={`block w-3 h-3 rounded-full ${currentIndex === index ? 'bg-white' : 'bg-gray-500'}`}
-          />
         ))}
       </div>
     </div>
@@ -257,7 +147,7 @@ const Electronics = ({ products, interval = 5500 }) => {
 };
 
 
-const Furniture = ({ products, interval = 5900 }) => {
+const Furniture = ({ products}) => {
   const dispatch = useDispatch();
   const [currentIndex, setCurrentIndex] = useState(0);
   const slideWidth = 300; // Width of each card in pixels
@@ -275,56 +165,20 @@ const Furniture = ({ products, interval = 5900 }) => {
     [products]
   );
 
-  const totalSlides = Math.ceil(filteredProducts.length / 4); // Number of slides needed
-  const sliderRef = useRef(null);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentIndex((prevIndex) =>
-        prevIndex === totalSlides - 1 ? 0 : prevIndex + 1
-      );
-    }, interval);
-
-    return () => clearInterval(timer); // Cleanup timer on unmount
-  }, [totalSlides, interval]);
-
-  const handlePrev = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? totalSlides - 1 : prevIndex - 1
-    );
-  };
-
-  const handleNext = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === totalSlides - 1 ? 0 : prevIndex + 1
-    );
-  };
-
-  const swipeHandlers = useSwipeable({
-    onSwipedLeft: handleNext,
-    onSwipedRight: handlePrev,
-    preventDefaultTouchmoveEvent: true,
-    trackMouse: true,
-  });
-
-  const chunks = useMemo(() => 
-    Array.from({ length: totalSlides }, (_, i) => 
-      filteredProducts.slice(i * 4, i * 4 + 4) // Adjust 4 based on how many cards you want per slide
-    ), [filteredProducts, totalSlides]
-  );
+  const chunks = filteredProducts
 
   return (
-    <div className="relative w-full overflow-hidden">
+    <div className="relative w-full ">
       <div
-        ref={sliderRef}
-        className="flex transition-transform duration-500 ease-in-out"
-        style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-        {...swipeHandlers}
+      
+        className="flex flex-wrap"
+        
+        
       >
-        {chunks.map((chunk, index) => (
-          <div key={index} className="flex flex-nowrap">
+        {chunks.map((product, index) => (
+          <div key={index} className="">
           
-            {chunk.map((product) => (
+            
               <div key={product.id} className="flex-shrink-0 w-72 p-4">
                 <div className="h-96 relative bg-white rounded-md shadow-xl overflow-hidden">
                   <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-white flex justify-center">
@@ -349,32 +203,10 @@ const Furniture = ({ products, interval = 5900 }) => {
                   </div>
                 </div>
               </div>
-            ))}
+
 
 
           </div>
-        ))}
-      </div>
-      <button
-        onClick={handlePrev}
-        className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md hover:bg-gray-200 focus:outline-none"
-        aria-label="Previous Slide"
-      >
-        &lt;
-      </button>
-      <button
-        onClick={handleNext}
-        className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md hover:bg-gray-200 focus:outline-none"
-        aria-label="Next Slide"
-      >
-        &gt;
-      </button>
-      <div className="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
-        {chunks.map((_, index) => (
-          <span
-            key={index}
-            className={`block w-3 h-3 rounded-full ${currentIndex === index ? 'bg-white' : 'bg-gray-500'}`}
-          />
         ))}
       </div>
     </div>
@@ -382,7 +214,7 @@ const Furniture = ({ products, interval = 5900 }) => {
 };
 
 
-const Shoes = ({ products, interval = 5700 }) => {
+const Shoes = ({ products }) => {
   const dispatch = useDispatch();
   const [currentIndex, setCurrentIndex] = useState(0);
   const slideWidth = 300; // Width of each card in pixels
@@ -400,56 +232,21 @@ const Shoes = ({ products, interval = 5700 }) => {
     [products]
   );
 
-  const totalSlides = Math.ceil(filteredProducts.length / 4); // Number of slides needed
-  const sliderRef = useRef(null);
+  const chunks = filteredProducts
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentIndex((prevIndex) =>
-        prevIndex === totalSlides - 1 ? 0 : prevIndex + 1
-      );
-    }, interval);
-
-    return () => clearInterval(timer); // Cleanup timer on unmount
-  }, [totalSlides, interval]);
-
-  const handlePrev = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? totalSlides - 1 : prevIndex - 1
-    );
-  };
-
-  const handleNext = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === totalSlides - 1 ? 0 : prevIndex + 1
-    );
-  };
-
-  const swipeHandlers = useSwipeable({
-    onSwipedLeft: handleNext,
-    onSwipedRight: handlePrev,
-    preventDefaultTouchmoveEvent: true,
-    trackMouse: true,
-  });
-
-  const chunks = useMemo(() => 
-    Array.from({ length: totalSlides }, (_, i) => 
-      filteredProducts.slice(i * 4, i * 4 + 4) // Adjust 4 based on how many cards you want per slide
-    ), [filteredProducts, totalSlides]
-  );
 
   return (
-    <div className="relative w-full overflow-hidden">
+    <div className="relative w-full">
       <div
-        ref={sliderRef}
-        className="flex transition-transform duration-500 ease-in-out"
-        style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-        {...swipeHandlers}
+        
+        className="flex flex-wrap"
+        
+        
       >
-        {chunks.map((chunk, index) => (
-          <div key={index} className="flex flex-nowrap">
+        {chunks.map((product, index) => (
+          <div key={index} className="">
           
-            {chunk.map((product) => (
+            
               <div key={product.id} className="flex-shrink-0 w-72 p-4">
                 <div className="h-96 relative bg-white rounded-md shadow-xl overflow-hidden">
                   <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-white flex justify-center">
@@ -474,32 +271,10 @@ const Shoes = ({ products, interval = 5700 }) => {
                   </div>
                 </div>
               </div>
-            ))}
+            
 
 
           </div>
-        ))}
-      </div>
-      <button
-        onClick={handlePrev}
-        className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md hover:bg-gray-200 focus:outline-none"
-        aria-label="Previous Slide"
-      >
-        &lt;
-      </button>
-      <button
-        onClick={handleNext}
-        className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md hover:bg-gray-200 focus:outline-none"
-        aria-label="Next Slide"
-      >
-        &gt;
-      </button>
-      <div className="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
-        {chunks.map((_, index) => (
-          <span
-            key={index}
-            className={`block w-3 h-3 rounded-full ${currentIndex === index ? 'bg-white' : 'bg-gray-500'}`}
-          />
         ))}
       </div>
     </div>
@@ -507,7 +282,7 @@ const Shoes = ({ products, interval = 5700 }) => {
 };
 
 
-const Miscellaneous = ({ products, interval = 5300 }) => {
+const Miscellaneous = ({ products }) => {
   const dispatch = useDispatch();
   const [currentIndex, setCurrentIndex] = useState(0);
   const slideWidth = 300; // Width of each card in pixels
@@ -525,56 +300,21 @@ const Miscellaneous = ({ products, interval = 5300 }) => {
     [products]
   );
 
-  const totalSlides = Math.ceil(filteredProducts.length / 4); // Number of slides needed
-  const sliderRef = useRef(null);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentIndex((prevIndex) =>
-        prevIndex === totalSlides - 1 ? 0 : prevIndex + 1
-      );
-    }, interval);
-
-    return () => clearInterval(timer); // Cleanup timer on unmount
-  }, [totalSlides, interval]);
-
-  const handlePrev = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? totalSlides - 1 : prevIndex - 1
-    );
-  };
-
-  const handleNext = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === totalSlides - 1 ? 0 : prevIndex + 1
-    );
-  };
-
-  const swipeHandlers = useSwipeable({
-    onSwipedLeft: handleNext,
-    onSwipedRight: handlePrev,
-    preventDefaultTouchmoveEvent: true,
-    trackMouse: true,
-  });
-
-  const chunks = useMemo(() => 
-    Array.from({ length: totalSlides }, (_, i) => 
-      filteredProducts.slice(i * 4, i * 4 + 4) // Adjust 4 based on how many cards you want per slide
-    ), [filteredProducts, totalSlides]
-  );
+  const chunks = filteredProducts
+  
 
   return (
-    <div className="relative w-full overflow-hidden">
+    <div className="relative w-full ">
       <div
-        ref={sliderRef}
-        className="flex transition-transform duration-500 ease-in-out"
-        style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-        {...swipeHandlers}
+        
+        className="flex flex-wrap"
+        
+        
       >
-        {chunks.map((chunk, index) => (
-          <div key={index} className="flex flex-nowrap">
+        {chunks.map((product, index) => (
+          <div key={index} className="">
           
-            {chunk.map((product) => (
+            
               <div key={product.id} className="flex-shrink-0 w-72 p-4">
                 <div className="h-96 relative bg-white rounded-md shadow-xl overflow-hidden">
                   <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-white flex justify-center">
@@ -599,32 +339,10 @@ const Miscellaneous = ({ products, interval = 5300 }) => {
                   </div>
                 </div>
               </div>
-            ))}
+            
 
 
           </div>
-        ))}
-      </div>
-      <button
-        onClick={handlePrev}
-        className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md hover:bg-gray-200 focus:outline-none"
-        aria-label="Previous Slide"
-      >
-        &lt;
-      </button>
-      <button
-        onClick={handleNext}
-        className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md hover:bg-gray-200 focus:outline-none"
-        aria-label="Next Slide"
-      >
-        &gt;
-      </button>
-      <div className="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
-        {chunks.map((_, index) => (
-          <span
-            key={index}
-            className={`block w-3 h-3 rounded-full ${currentIndex === index ? 'bg-white' : 'bg-gray-500'}`}
-          />
         ))}
       </div>
     </div>
