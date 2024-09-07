@@ -65,7 +65,7 @@ const DeliveryForm = () => {
   }
 
   return (
-    <div className="max-w-lg mx-auto p-4 mt-32">
+    <div  className="max-w-lg mx-auto p-4 mt-32">
       <h2 className="text-2xl font-bold mb-4">معلومات التوصيل</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="mb-4">
